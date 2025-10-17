@@ -1,161 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CONGRATS 🎉🎊</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHECKPOINT 1 — DEBOYS</title>
   <style>
-    :root{
-      --bg: #0b0f17;
-      --card: #f7f9fb;
-      --accent: #2563eb;
-      --accent-dark: #1e40af;
-      --glass: rgba(255,255,255,0.06);
-    }
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(180deg,#061021 0%, #091827 60%);
-      color:#e6eef8;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    .wrap{
-      min-height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:40px 20px;
-      box-sizing:border-box;
-    }
-    .card{
-      width:100%;
-      max-width:820px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border-radius:14px;
-      padding:36px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      text-align:center;
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-    h1{
-      margin:0 0 6px;
-      font-size:36px;
-      letter-spacing:1px;
-    }
-    p.lead{
-      margin:6px 0 28px;
-      color: #bcd3ff;
-      font-size:15px;
+    body {
+      background: radial-gradient(circle at top, #0a0a0a, #000);
+      color: #fff;
+      font-family: "Courier New", monospace;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    .btn{
-      display:inline-block;
-      padding:18px 40px;
-      font-size:18px;
-      font-weight:700;
-      border-radius:12px;
-      border:none;
-      cursor:pointer;
-      background: linear-gradient(90deg,var(--accent), var(--accent-dark));
-      color:white;
-      box-shadow: 0 8px 24px rgba(37,99,235,0.28);
-      transition: transform .12s ease, box-shadow .12s ease, opacity .12s;
-      user-select:none;
-    }
-    .btn:active{ transform: translateY(1px) }
-    .btn[disabled]{
-      opacity:0.7;
-      cursor:default;
-      box-shadow:none;
+    h1 {
+      font-size: 2em;
+      letter-spacing: 2px;
+      color: #ff0066;
+      text-shadow: 0 0 15px #ff0066;
+      margin-bottom: 30px;
     }
 
-    .status{
-      margin-top:18px;
-      font-size:14px;
-      color:#9fb7ff;
-      min-height:22px;
+    button {
+      background: transparent;
+      border: 2px solid #ff0066;
+      color: #ff0066;
+      padding: 12px 40px;
+      border-radius: 10px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    /* responsive */
-    @media (max-width:520px){
-      h1{ font-size:26px; }
-      .btn{ padding:14px 28px; font-size:16px; }
+    button:hover {
+      background: #ff0066;
+      color: #fff;
+      box-shadow: 0 0 15px #ff0066;
+    }
+
+    p {
+      margin-top: 25px;
+      font-size: 1em;
+      color: #bbb;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card" role="main" aria-labelledby="title">
-      <h1 id="title">CHECKPOINT CONGRATS 🎉🎊</h1>
-      <p class="lead">Klik tombol di bawah — tunggu 10 detik sampai tombol berubah jadi <strong>Links</strong>.</p>
-
-      <button id="actionBtn" class="btn" type="button">Open</button>
-
-      <div id="status" class="status" aria-live="polite"></div>
-    </div>
-  </div>
+  <h1>CHECKPOINT 1 — DEBOYS</h1>
+  <button id="openBtn">OPEN</button>
+  <p id="statusText"></p>
 
   <script>
-    (function(){
-      const MEDIAFIRE_URL = "https://www.mediafire.com/file/kt5f9lo71sgnegm/checkpoint+1+.txt/file";
-      const btn = document.getElementById('actionBtn');
-      const status = document.getElementById('status');
+    const btn = document.getElementById("openBtn");
+    const status = document.getElementById("statusText");
+    let waiting = false;
 
-      let state = 'idle'; // idle -> counting -> ready -> done
-
-      function startCountdown(seconds){
-        if(state !== 'idle') return;
-        state = 'counting';
-        btn.disabled = true;
-        let rem = seconds;
-
-        status.textContent = 'Tunggu ' + rem + ' detik...';
-        // show countdown on button too
-        btn.textContent = 'Open';
-
-        const timer = setInterval(() => {
-          rem--;
-          if(rem > 0){
-            status.textContent = 'Tunggu ' + rem + ' detik...';
-          } else {
-            clearInterval(timer);
-            state = 'ready';
-            btn.disabled = false;
-            btn.textContent = 'Links';
-            status.textContent = 'Siap — klik "Links" untuk membuka.';
-            // add a data-flag to button to indicate it's now a link
-            btn.setAttribute('data-ready','1');
-          }
-        }, 1000);
-      }
-
-      // initial click -> start countdown
-      btn.addEventListener('click', function(e){
-        // if button already in "ready" mode, follow link
-        if(btn.getAttribute('data-ready') === '1'){
-          // open in new tab
-          window.open(MEDIAFIRE_URL, '_blank', 'noopener');
-          state = 'done';
-          return;
-        }
-
-        // if clicked while counting or disabled, ignore
-        if(state === 'counting') return;
-
-        // start countdown of 10 seconds
-        startCountdown(10);
-      });
-
-      // Accessibility: allow Enter/Space to activate when focused
-      btn.addEventListener('keydown', function(e){
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault();
-          btn.click();
-        }
-      });
-    })();
+    btn.addEventListener("click", () => {
+      if (waiting) return;
+      waiting = true;
+      btn.disabled = true;
+      btn.textContent = "PLEASE WAIT...";
+      status.textContent = "Wait 10 seconds...";
+      setTimeout(() => {
+        btn.textContent = "LINKS";
+        btn.disabled = false;
+        waiting = false;
+        btn.onclick = () => {
+          window.location.href = "https://www.mediafire.com/file/hw97v1u6v80eprn/checkpoint+1+.txt/file";
+        };
+        status.textContent = "Ready!";
+      }, 10000);
+    });
   </script>
 </body>
 </html>
